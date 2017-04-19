@@ -29,7 +29,7 @@
   set_fact: hetzner_installimage_run=True
   when: hetzner_installimage_ignore_hostcode == True or (hetzner_installimage_hostcode is defined and hetzner_installimage_hostcode.stat.exists == False)
 
-- include: setup.yml
+- include: tasks/setup.yml
   static: yes
   when: hetzner_installimage_run
 
