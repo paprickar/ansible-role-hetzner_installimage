@@ -30,6 +30,7 @@
   when: hetzner_installimage_ignore_hostcode == True or (hetzner_installimage_hostcode is defined and hetzner_installimage_hostcode.stat.exists == False)
 
 - include: setup.yml
+  static: yes
   when: hetzner_installimage_run
 
 # - name: fail tasks if hetzner_installimage run == False
