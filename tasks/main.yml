@@ -29,28 +29,11 @@
   set_fact: hetzner_installimage_run=True
   when: hetzner_installimage_ignore_hostcode == True or (hetzner_installimage_hostcode is defined and hetzner_installimage_hostcode.stat.exists == False)
 
-- name: fail tasks if hetzner_installimage run == False
-  fail:
-    msg: "File /etc/hostcode exists on host {{hetzner_server_ip}}"
-  when: not hetzner_installimage_run
-
-- name: check the current rescue mode state
-  local_action: uri
-    url=https://robot-ws.your-server.de/boot/{{ hetzner_server_ip }}/rescue
-    method=GET
-    user={{ hetzner_installimage_webservice_username }}
-    password={{ hetzner_installimage_webservice_password }}
-    force_basic_auth=yes
-    status_code=200
-  register: hetzner_installimage_rescue
+- include: setup.yml
   when: hetzner_installimage_run
 
-- name: include rescue mode
-  include: rescuemode.yml
-  when: hetzner_installimage_run and hetzner_installimage_rescue.json.rescue.active == false and not ansible_check_mode
-
-- name: include installimage
-  include: installimage.yml
-  when: hetzner_installimage_run and hetzner_installimage_rescue.json.rescue.active == false and not ansible_check_mode
-
+# - name: fail tasks if hetzner_installimage run == False
+#   fail:
+#     msg: "File /etc/hostcode exists on host {{hetzner_server_ip}}"
+#   when: not hetzner_installimage_run
 ...
