@@ -29,12 +29,8 @@
   set_fact: hetzner_installimage_run=True
   when: hetzner_installimage_ignore_hostcode == True or (hetzner_installimage_hostcode is defined and hetzner_installimage_hostcode.stat.exists == False)
 
-- include: tasks/setup.yml
-  static: yes
+- name: include setup.yml
+  include: setup.yml
   when: hetzner_installimage_run
 
-# - name: fail tasks if hetzner_installimage run == False
-#   fail:
-#     msg: "File /etc/hostcode exists on host {{hetzner_server_ip}}"
-#   when: not hetzner_installimage_run
 ...
